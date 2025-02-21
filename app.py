@@ -24,3 +24,23 @@ y_pred = model.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 print(f"Genauigkeit: {accuracy *100}%")
 
+def model_plottter(x, y, model):
+    X_min, X_max = x[:, 0].min() - 1, x[:, 0].max() + 1
+    y_min, y_max = x[:, 1].min() - 1, x[:, 1].max() + 1
+
+    xx, yy = np.meshgrid(np.linspace(X_min, X_max, 100), np.linspace(y_min, y_max, 100))
+
+    Z = model.predict(np.c_[xx.ravel(), yy.ravel()])
+    Z = Z.reshape(xx.shape)
+
+    plt.contourf(xx, yy, Z)
+
+    plt.scatter(x[:, 0], x[:, 1], c=y, edgecolors="k", cmap=plt.cm.bwr)
+
+    plt.xlabel("Länge")
+    plt.ylabel("Breite")
+    plt.title("Logistische Regression")
+
+    plt.show()
+   
+model_plottter(X_test, y_test, model)
